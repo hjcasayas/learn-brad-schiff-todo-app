@@ -1,5 +1,5 @@
 {
-  "name": "todo-app",
+  "name": "@todo-app/web-expres-ts",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "workspaces": [
-    "web/expres-ts"
-  ]
+  "description": ""
 }
