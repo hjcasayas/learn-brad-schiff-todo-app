@@ -1,0 +1,19 @@
+services:
+  web-express-ts:
+    build:
+      dockerfile: ./web-express-ts.dockerfile
+    restart: always
+    ports:
+      - 8080:8080
+    develop:
+      watch:
+        - action: sync
+          path: ./web/express-ts
+          target: /todo-app/web/express-ts
+          ignore:
+            - ./node_modules
+            - ./web/express-ts/node_modules
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./web/expres-ts/package.json
