@@ -10,6 +10,6 @@
   "license": "ISC",
   "description": "",
   "workspaces": [
-    "web/expres-ts"
+    "web/express-ts"
   ]
 }
