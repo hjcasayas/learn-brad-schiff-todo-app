@@ -1,8 +1,8 @@
 import { createServer } from "node:http";
 
-import {app} from './src/app.js'
+import { createExpressApp } from './src/app.js'
 
-const server = createServer(app);
+const server = createServer(createExpressApp());
 
 const PORT = process.env.PORT ?? 8080;
 
