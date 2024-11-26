@@ -12,6 +12,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@todo-app/lib-interfaces": "file:../../lib/interfaces",
+    "@todo-app/lib-repositories": "file:../../lib/repositories",
+    "@todo-app/lib-services": "file:../../lib/services",
     "express": "^4.21.1"
   },
   "devDependencies": {

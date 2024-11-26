@@ -1,6 +1,12 @@
 import express from 'express';
 
-export const createExpressApp = () => {
+import type { ITodoRepository, ITodoService } from '@todo-app/lib-interfaces/index.js';
+
+interface Dependencies {
+    todoService: ITodoService
+}
+
+export const createExpressApp = ({ todoService }: Dependencies) => {
     const app = express();
     app.use(express.urlencoded({ extended: false }));
     app.get('/', (_req, res) => {
@@ -57,9 +63,11 @@ export const createExpressApp = () => {
         `);
     });
 
-    app.post('/create-item', (req, res) => {
+    app.post('/create-item', async (req, res) => {
         console.log('form data', req.body);
-        res.send('Thanks for submitting the form.');
+        const item = req.body.item;
+        const id = await todoService.add({ item });
+        res.status(201).json({ data: id });
     });
 
     return app;
