@@ -1,5 +1,7 @@
-**node_modules**
+**/node_modules
 .dockerignore
 .gitignore
 *.dockerfile
 README.md
+**/dist
+.git
