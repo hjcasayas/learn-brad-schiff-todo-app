@@ -48,3 +48,14 @@ docker compose up watch
     ```html
         <script src="/browser.js" type="module" defer></script>
     ```
+
+3. __dirname global variable is undefined.
+
+    Cause:
+    - __dirname global variable is not avaialble in ES modules
+
+    Fix:
+    - Use the functions below to get the full path:
+    ```javascript
+        path.dirname(fileURLToPath(import.meta.url))
+    ```
