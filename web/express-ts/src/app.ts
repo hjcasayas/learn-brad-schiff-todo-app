@@ -9,7 +9,8 @@ interface Dependencies {
 export const createExpressApp = ({ todoService }: Dependencies) => {
     const app = express();
     app.use(express.urlencoded({ extended: false }));
-    app.get('/', (_req, res) => {
+    app.get('/', async (_req, res) => {
+        const todos = await todoService.getAll();
         res.send(`
             <!DOCTYPE html>
             <html>
@@ -33,27 +34,17 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
                         </div>
                         
                         <ul class="list-group pb-5">
-                        <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            <span class="item-text">Fake example item #1</span>
-                            <div>
-                            <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-                            <button class="delete-me btn btn-danger btn-sm">Delete</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            <span class="item-text">Fake example item #2</span>
-                            <div>
-                            <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-                            <button class="delete-me btn btn-danger btn-sm">Delete</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            <span class="item-text">Fake example item #3</span>
-                            <div>
-                            <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-                            <button class="delete-me btn btn-danger btn-sm">Delete</button>
-                            </div>
-                        </li>
+                        ${todos.map(todo => {
+                            return `
+                                <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                    <span class="item-text">${todo.item}</span>
+                                    <div>
+                                    <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
+                                    <button class="delete-me btn btn-danger btn-sm">Delete</button>
+                                    </div>
+                                </li>
+                            `;
+                        }).join('')}
                         </ul>
                         
                     </div>
@@ -66,8 +57,8 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
     app.post('/create-item', async (req, res) => {
         console.log('form data', req.body);
         const item = req.body.item;
-        const id = await todoService.add({ item });
-        res.status(201).json({ data: id });
+        await todoService.add({ item });
+        res.redirect('/');
     });
 
     return app;

@@ -8,6 +8,10 @@ export class TodoService implements ITodoService {
 
     add = async (todo: TodoEntity) => {
         return await this.todoRepository.add(todo);
-    }
+    };
+
+    getAll = async (): Promise<TodoEntity[]> => {
+        return await this.todoRepository.getAll();
+    };
 
 }
