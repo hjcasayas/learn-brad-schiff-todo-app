@@ -1,9 +1,11 @@
 {
   "name": "@todo-app/lib-interfaces",
   "version": "1.0.0",
-  "main": "dist/index.js",
   "type": "module",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./index.js": "./dist/index.js"
+  },
   "devDependencies": {},
   "scripts": {
     "build": "tsc --build --clean && tsc --build",

@@ -1,6 +1,8 @@
 import express from 'express';
 
 import type { ITodoRepository, ITodoService } from '@todo-app/lib-interfaces/index.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 interface Dependencies {
     todoService: ITodoService
@@ -9,6 +11,7 @@ interface Dependencies {
 export const createExpressApp = ({ todoService }: Dependencies) => {
     const app = express();
     app.use(express.urlencoded({ extended: false }));
+    app.use(express.static(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public')))
     app.get('/', async (_req, res) => {
         const todos = await todoService.getAll();
         res.send(`
@@ -35,7 +38,7 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
                         
                         <ul class="list-group pb-5">
                         ${todos.map(todo => {
-                            return `
+            return `
                                 <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
                                     <span class="item-text">${todo.item}</span>
                                     <div>
@@ -44,11 +47,11 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
                                     </div>
                                 </li>
                             `;
-                        }).join('')}
+        }).join('')}
                         </ul>
                         
                     </div>
-                
+                    <script src='/browser.js' defer type='module'></script>
                 </body>
             </html>
         `);

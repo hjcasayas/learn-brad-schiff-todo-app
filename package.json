@@ -4,10 +4,13 @@
   "main": "index.js",
   "scripts": {
     "dev:web:express-ts": "npm run dev --workspace @todo-app/web-express-ts --if-present",
+    "build:web:express-ts": "npm run build --workspace @todo-app/web-express-ts --if-present",
+    "start:web:express-ts": "npm run start --workspace @todo-app/web-express-ts --if-present",
     "build:lib:interfaces": "npm run build --workspace @todo-app/lib-interfaces --if-present",
     "build:lib:repositories": "npm run build --workspace @todo-app/lib-repositories --if-present",
     "build:lib:services": "npm run build --workspace @todo-app/lib-services --if-present",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "npm-check": "npm-check -u"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +23,10 @@
     "lib/services"
   ],
   "devDependencies": {
-    "@types/mongodb": "^4.0.6",
-    "@types/node": "^22.9.3",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^22.10.1",
     "nodemon": "^3.1.7",
+    "npm-check": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
