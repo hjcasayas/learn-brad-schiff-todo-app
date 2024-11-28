@@ -51,10 +51,10 @@ docker compose up watch
 
 3. __dirname global variable is undefined.
 
-    Cause:
+    Causes:
     - __dirname global variable is not avaialble in ES modules
 
-    Fix:
+    Fixes:
     - Use the functions below to get the full path:
     ```javascript
         path.dirname(fileURLToPath(import.meta.url))
