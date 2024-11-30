@@ -19,7 +19,6 @@ services:
       watch:
         - action: rebuild
           path: ./web/express-ts
-          target: /todo-app/web/express-ts
           ignore:
             - ./web/express-ts/node_modules
             - ./web/express-ts/dist
