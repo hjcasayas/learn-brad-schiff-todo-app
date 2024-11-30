@@ -4,8 +4,8 @@ A [todo app project](https://www.udemy.com/course/learn-javascript-full-stack-fr
 ## Running Local Development
 
 ### Prerequisites
-- Docker
-- Node
+- Docker (v4.36.0)
+- Node (v22.11.0)
 
 ### CLI Commands
 ```bash 
