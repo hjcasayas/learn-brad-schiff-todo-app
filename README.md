@@ -50,9 +50,9 @@ docker compose up watch
 
     Fixes:
     - Set the type attribute of the script to module.
-    ```html
-        <script src="/browser.js" type="module" defer></script>
-    ```
+        ```html
+            <script src="/browser.js" type="module" defer></script>
+        ```
 
 3. __dirname global variable is undefined.
 
@@ -61,6 +61,6 @@ docker compose up watch
 
     Fixes:
     - Use the functions below to get the full path:
-    ```javascript
-        path.dirname(fileURLToPath(import.meta.url))
-    ```
+        ```javascript
+            path.dirname(fileURLToPath(import.meta.url))
+        ```
