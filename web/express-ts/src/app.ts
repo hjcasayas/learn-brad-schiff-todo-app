@@ -1,8 +1,9 @@
-import express from 'express';
+import express, { type NextFunction, type Request, type Response } from 'express';
 
-import type { ITodoRepository, ITodoService } from '@todo-app/lib-interfaces/index.js';
+import type { ITodoService, TodoEntity } from '@todo-app/lib-interfaces/index.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import sanitize from 'sanitize-html';
 
 interface Dependencies {
     todoService: ITodoService
@@ -10,8 +11,10 @@ interface Dependencies {
 
 export const createExpressApp = ({ todoService }: Dependencies) => {
     const app = express();
+    app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(express.static(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public')))
+    app.use(passwordProtected);
     app.get('/', async (_req, res) => {
         const todos = await todoService.getAll();
         res.send(`
@@ -28,29 +31,23 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
                         <h1 class="display-4 text-center py-1">To-Do App</h1>
                         
                         <div class="jumbotron p-3 shadow-sm">
-                        <form method="POST" action="/create-item">
+                        <form id="create-form" method="POST" action="/create-item">
                             <div class="d-flex align-items-center">
-                            <input autofocus name="item" autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
+                            <input id="create-form-field" autofocus name="item" autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
                             <button class="btn btn-primary">Add New Item</button>
                             </div>
                         </form>
                         </div>
                         
-                        <ul class="list-group pb-5">
-                        ${todos.map(todo => {
-            return `
-                                <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                                    <span class="item-text">${todo.item}</span>
-                                    <div>
-                                    <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-                                    <button class="delete-me btn btn-danger btn-sm">Delete</button>
-                                    </div>
-                                </li>
-                            `;
-        }).join('')}
+                        <ul id="item-list" class="list-group pb-5">
+                        
                         </ul>
                         
                     </div>
+                    <script>
+                        const items = ${JSON.stringify(todos)};
+                    </script>
+                    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
                     <script src='/browser.js' defer type='module'></script>
                 </body>
             </html>
@@ -58,11 +55,32 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
     });
 
     app.post('/create-item', async (req, res) => {
-        console.log('form data', req.body);
         const item = req.body.item;
-        await todoService.add({ item });
+        await todoService.add({ item: sanitize(item, { allowedTags: [], allowedAttributes: {} }) });
         res.redirect('/');
     });
+
+    app.post('/update-item', async (req, res) => {
+        const todo = req.body as TodoEntity;
+        const { id } = await todoService.updateById(todo);
+        res.status(200).json({ message: 'OK', id });
+    });
+
+    app.post('/delete-item', async (req, res) => {
+        const id = req.body.id;
+        await todoService.deletById(id);
+        res.status(200).json({ message: 'OK' });
+    });
+
+    function passwordProtected(req: Request, res: Response, next: NextFunction) {
+        res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"');
+        console.log(req.headers.authorization);
+        if (req.headers.authorization == 'Basic dGVzdDpQYXNzd29yZC0x') {
+            next();
+        } else {
+            res.status(401).send('Authorization neededs');
+        }
+    }
 
     return app;
 }
