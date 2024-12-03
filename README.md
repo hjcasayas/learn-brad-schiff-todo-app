@@ -8,7 +8,12 @@ A [todo app project](https://www.udemy.com/course/learn-javascript-full-stack-fr
 - Node (v22.11.0)
 
 ### CLI Commands
+Open a terminal for each command
 ```bash 
+npm run watch:lib:interfaces
+npm run watch:lib:repositories
+npm run watch:lib:services
+npm run watch:web:express-ts
 docker compose up watch 
 ```
 
