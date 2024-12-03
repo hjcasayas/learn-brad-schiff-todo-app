@@ -1,9 +1,10 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
-
 import type { ITodoService, TodoEntity } from '@todo-app/lib-interfaces/index.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import sanitize from 'sanitize-html';
+import { config } from "dotenv-safe";
+config();
 
 interface Dependencies {
     todoService: ITodoService
@@ -75,7 +76,7 @@ export const createExpressApp = ({ todoService }: Dependencies) => {
     function passwordProtected(req: Request, res: Response, next: NextFunction) {
         res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"');
         console.log(req.headers.authorization);
-        if (req.headers.authorization == 'Basic dGVzdDpQYXNzd29yZC0x') {
+        if (req.headers.authorization == `Basic ${process.env.BASIC_AUTH_TOKEN}`) {
             next();
         } else {
             res.status(401).send('Authorization neededs');
