@@ -3,5 +3,4 @@
 .gitignore
 *.dockerfile
 README.md
-**/dist
 .git

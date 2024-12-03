@@ -9,7 +9,8 @@
   "devDependencies": {},
   "scripts": {
     "build": "tsc --build --clean && tsc --build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon --exec \"npm run build\" -e ts --ignore dist --ignore node_modules"
   },
   "keywords": [],
   "author": "",

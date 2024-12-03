@@ -17,22 +17,20 @@ services:
       - mongo
     develop:
       watch:
-        - action: rebuild
-          path: ./web/express-ts
-          ignore:
-            - ./web/express-ts/node_modules
-            - ./web/express-ts/dist
+        - action: sync
+          path: ./web/express-ts/dist
+          target: /todo-app/web/express-ts/dist
         - action: rebuild
           path: ./package.json
-        - action: rebuild
-          path: ./lib
-          ignore:
-            - ./lib/interfaces/dist
-            - ./lib/interfaces/node_modules
-            - ./lib/repositories/dist
-            - ./lib/repositories/node_modules
-            - ./lib/services/dist
-            - ./lib/services/node_modules
+        - action: sync
+          path: ./lib/interfaces/dist
+          target: /todo-app/lib/interfaces/dist
+        - action: sync
+          path: ./lib/repositories/dist
+          target: /todo-app/lib/repositories/dist
+        - action: sync
+          path: ./lib/services/dist
+          target: /todo-app/lib/services/dist
 
   mongo:
     image: mongo
