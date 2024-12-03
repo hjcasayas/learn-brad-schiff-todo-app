@@ -17,7 +17,7 @@ npm run watch:web:express-ts
 docker compose up watch 
 ```
 
-### Web URLs
+### Local Web URLs
 - [Todo Web App](http://localhost:8080)
 - [Mongo Express](http://localhost:8081)
 
